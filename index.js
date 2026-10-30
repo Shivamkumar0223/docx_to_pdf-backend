@@ -9,6 +9,13 @@ const port = 3000;
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+    res.json({
+        message: "DOCX to PDF API is running",
+        endpoint: "POST /convertFile",
+    });
+});
+
 // settting up the file storage
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -52,6 +59,10 @@ app.post("/convertFile", upload.single("file"), (req, res, next) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Server is listening on port ${port}`);
+    });
+}
+
+module.exports = app;
